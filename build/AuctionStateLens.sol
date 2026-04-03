@@ -2397,6 +2397,9 @@ interface IContinuousClearingAuction is
     /// @notice The block at which the auction can be claimed
     function claimBlock() external view returns (uint64);
 
+    /// @notice The maximum allowed bid price, derived from the total supply
+    function MAX_BID_PRICE() external view returns (uint256);
+
     /// @notice The address of the validation hook for the auction
     function validationHook() external view returns (IValidationHook);
 
@@ -2432,6 +2435,7 @@ struct AuctionState {
     uint256 totalCleared;
     bool isGraduated;
     uint256 currencyBalance;
+    uint256 sumCurrencyDemandAboveClearingQ96;
 }
 
 /// @title AuctionStateLens
@@ -2463,7 +2467,9 @@ contract AuctionStateLens {
                 currencyRaised: auction.currencyRaised(),
                 totalCleared: auction.totalCleared(),
                 isGraduated: auction.isGraduated(),
-                currencyBalance: currencyBalance
+                currencyBalance: currencyBalance,
+                sumCurrencyDemandAboveClearingQ96: auction
+                    .sumCurrencyDemandAboveClearingQ96()
             });
             bytes memory dump = abi.encode(_state);
 

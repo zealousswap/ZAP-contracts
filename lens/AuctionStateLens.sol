@@ -13,6 +13,7 @@ struct AuctionState {
     uint256 totalCleared;
     bool isGraduated;
     uint256 currencyBalance;
+    uint256 sumCurrencyDemandAboveClearingQ96;
 }
 
 /// @title AuctionStateLens
@@ -43,7 +44,8 @@ contract AuctionStateLens {
                 currencyRaised: auction.currencyRaised(),
                 totalCleared: auction.totalCleared(),
                 isGraduated: auction.isGraduated(),
-                currencyBalance: currencyBalance
+                currencyBalance: currencyBalance,
+                sumCurrencyDemandAboveClearingQ96: auction.sumCurrencyDemandAboveClearingQ96()
             });
             bytes memory dump = abi.encode(_state);
 
